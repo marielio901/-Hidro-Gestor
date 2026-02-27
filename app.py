@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 from pathlib import Path
+import runpy
 
 import plotly.io as pio
 import streamlit as st
@@ -66,22 +67,56 @@ st.markdown(
 
 pages_dir = Path(__file__).parent / "pages"
 
-page_dashboard = st.Page(str(pages_dir / "1_Dashboard.py"), title="Dashboard", default=True)
-page_cadastros = st.Page(str(pages_dir / "2_Cadastrar_Locais.py"), title="Cadastrar Locais")
-page_registro = st.Page(str(pages_dir / "3_Registrar_atividades.py"), title="Registrar atividades")
-page_planejamento = st.Page(str(pages_dir / "4_Planejamento.py"), title="Planejamento")
-page_informacoes = st.Page(str(pages_dir / "5_Informacoes.py"), title="Informações")
-
 st.sidebar.title("Hidro Gestor")
 st.sidebar.markdown("--------------")
-st.sidebar.page_link(page_dashboard, label="Dashboard")
-st.sidebar.page_link(page_cadastros, label="Cadastrar Locais")
-st.sidebar.page_link(page_registro, label="Registrar atividades")
-st.sidebar.page_link(page_planejamento, label="Planejamento")
-st.sidebar.page_link(page_informacoes, label="Informações")
 
-pg = st.navigation(
-    [page_dashboard, page_cadastros, page_registro, page_planejamento, page_informacoes],
-    position="hidden",
-)
-pg.run()
+page_files = {
+    "Dashboard": pages_dir / "1_Dashboard.py",
+    "Cadastrar Locais": pages_dir / "2_Cadastrar_Locais.py",
+    "Registrar atividades": pages_dir / "3_Registrar_atividades.py",
+    "Planejamento": pages_dir / "4_Planejamento.py",
+    "Informações": pages_dir / "5_Informacoes.py",
+}
+
+def _fallback_navigation() -> None:
+    escolha = st.sidebar.radio("Navegação", list(page_files.keys()), index=0)
+    runpy.run_path(str(page_files[escolha]), run_name="__main__")
+
+
+if hasattr(st, "Page") and hasattr(st, "navigation"):
+    nav_items = list(page_files.items())
+
+    try:
+        pages = [
+            st.Page(str(path), title=label, default=(idx == 0))
+            for idx, (label, path) in enumerate(nav_items)
+        ]
+    except TypeError:
+        # Compatibilidade com versões que não aceitam `default` no construtor de Page.
+        pages = [st.Page(str(path), title=label) for label, path in nav_items]
+
+    links_rendered = False
+    if hasattr(st.sidebar, "page_link"):
+        for idx, (label, path) in enumerate(nav_items):
+            try:
+                st.sidebar.page_link(pages[idx], label=label)
+                links_rendered = True
+            except Exception:
+                st.sidebar.page_link(str(path), label=label)
+                links_rendered = True
+
+    if links_rendered:
+        try:
+            pg = st.navigation(pages, position="hidden")
+        except (TypeError, ValueError):
+            pg = st.navigation(pages)
+    else:
+        try:
+            pg = st.navigation(pages, position="sidebar")
+        except (TypeError, ValueError):
+            pg = st.navigation(pages)
+
+    pg.run()
+else:
+    # Fallback para versões antigas do Streamlit no deploy.
+    _fallback_navigation()

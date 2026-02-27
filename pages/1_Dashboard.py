@@ -2012,15 +2012,9 @@ with tab_gestao:
                         marker={"size": 7, "color": "#22c55e"},
                     )
                 )
-                fig.update_layout(
-                    title="Radar de status (%)",
-                    height=460,
-                    margin={"t": 60, "r": 55, "b": 40, "l": 55},
-                    showlegend=False,
-                    polar={"gridshape": "linear", "bgcolor": "rgba(255, 255, 255, 0.92)"},
-                )
-                fig.update_polars(
-                    radialaxis={
+                polar_cfg = {
+                    "bgcolor": "rgba(255, 255, 255, 0.92)",
+                    "radialaxis": {
                         "visible": True,
                         "range": [0, 100],
                         "ticksuffix": "%",
@@ -2029,14 +2023,31 @@ with tab_gestao:
                         "tickfont": {"size": 11, "color": "#334155"},
                         "gridcolor": "rgba(148, 163, 184, 0.30)",
                     },
-                    angularaxis={
+                    "angularaxis": {
                         "type": "category",
                         "tickfont": {"size": 11, "color": "#334155"},
                         "rotation": 90,
                         "direction": "clockwise",
                         "gridcolor": "rgba(148, 163, 184, 0.30)",
                     },
-                )
+                }
+                try:
+                    fig.update_layout(
+                        title="Radar de status (%)",
+                        height=460,
+                        margin={"t": 60, "r": 55, "b": 40, "l": 55},
+                        showlegend=False,
+                        polar={**polar_cfg, "gridshape": "linear"},
+                    )
+                except Exception:
+                    # Alguns ambientes de deploy usam Plotly sem `gridshape` no polar.
+                    fig.update_layout(
+                        title="Radar de status (%)",
+                        height=460,
+                        margin={"t": 60, "r": 55, "b": 40, "l": 55},
+                        showlegend=False,
+                        polar=polar_cfg,
+                    )
                 st.plotly_chart(fig, use_container_width=True)
                 st.caption(
                     " | ".join(

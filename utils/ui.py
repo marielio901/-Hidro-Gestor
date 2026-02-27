@@ -23,7 +23,7 @@ def render_global_filters(
     if in_sidebar:
         st.sidebar.markdown("### Filtros")
         date_range = st.sidebar.date_input(
-            "Intervalo de datas",
+            "📅 Intervalo de datas",
             value=(date.today() - timedelta(days=default_days), date.today()),
             key=f"{prefix}_date_range",
             format="DD/MM/YYYY",
@@ -34,13 +34,15 @@ def render_global_filters(
             start_date, end_date = date_range, date_range
 
         fazendas_df = dims["fazendas"]
-        fazenda_ids = st.sidebar.multiselect(
-            "Fazenda",
-            options=fazendas_df["id"].tolist(),
-            default=[],
-            key=f"{prefix}_fazendas",
-            format_func=lambda x: fazendas_df.loc[fazendas_df["id"] == x, "nome"].iloc[0],
+        fazenda_options = [None, *fazendas_df["id"].tolist()]
+        fazenda_sel = st.sidebar.selectbox(
+            "🏡 Fazenda",
+            options=fazenda_options,
+            index=0,
+            key=f"{prefix}_fazenda_sb",
+            format_func=lambda x: "Todas" if x is None else fazendas_df.loc[fazendas_df["id"] == x, "nome"].iloc[0],
         )
+        fazenda_ids = [] if fazenda_sel is None else [fazenda_sel]
     else:
         c1, c2, c3, c4, c5 = st.columns([1.5, 1.2, 1.2, 1.2, 1.0])
 
@@ -63,6 +65,7 @@ def render_global_filters(
                 options=fazendas_df["id"].tolist(),
                 default=[],
                 key=f"{prefix}_fazendas",
+                placeholder="Selecione...",
                 format_func=lambda x: fazendas_df.loc[fazendas_df["id"] == x, "nome"].iloc[0],
             )
 
@@ -71,13 +74,15 @@ def render_global_filters(
         blocos_df = blocos_df[blocos_df["fazenda_id"].isin(fazenda_ids)]
 
     if in_sidebar:
-        bloco_ids = st.sidebar.multiselect(
-            "Bloco",
-            options=blocos_df["id"].tolist(),
-            default=[],
-            key=f"{prefix}_blocos",
-            format_func=lambda x: blocos_df.loc[blocos_df["id"] == x, "nome"].iloc[0],
+        bloco_options = [None, *blocos_df["id"].tolist()]
+        bloco_sel = st.sidebar.selectbox(
+            "🧱 Bloco",
+            options=bloco_options,
+            index=0,
+            key=f"{prefix}_bloco_sb",
+            format_func=lambda x: "Todos" if x is None else blocos_df.loc[blocos_df["id"] == x, "nome"].iloc[0],
         )
+        bloco_ids = [] if bloco_sel is None else [bloco_sel]
     else:
         with c3:
             bloco_ids = st.multiselect(
@@ -85,6 +90,7 @@ def render_global_filters(
                 options=blocos_df["id"].tolist(),
                 default=[],
                 key=f"{prefix}_blocos",
+                placeholder="Selecione...",
                 format_func=lambda x: blocos_df.loc[blocos_df["id"] == x, "nome"].iloc[0],
             )
 
@@ -95,17 +101,23 @@ def render_global_filters(
         talhoes_df = talhoes_df[talhoes_df["bloco_id"].isin(bloco_ids)]
 
     if in_sidebar:
-        talhao_ids = st.sidebar.multiselect(
-            "Talhão",
-            options=talhoes_df["id"].tolist(),
-            default=[],
-            key=f"{prefix}_talhoes",
+        talhao_options = [None, *talhoes_df["id"].tolist()]
+        talhao_sel = st.sidebar.selectbox(
+            "🌱 Talhão",
+            options=talhao_options,
+            index=0,
+            key=f"{prefix}_talhao_sb",
             format_func=lambda x: (
+                "Todos"
+                if x is None
+                else (
                 talhoes_df.loc[talhoes_df["id"] == x, "codigo"].iloc[0]
                 + " - "
                 + talhoes_df.loc[talhoes_df["id"] == x, "nome"].iloc[0]
+                )
             ),
         )
+        talhao_ids = [] if talhao_sel is None else [talhao_sel]
     else:
         with c4:
             talhao_ids = st.multiselect(
@@ -113,6 +125,7 @@ def render_global_filters(
                 options=talhoes_df["id"].tolist(),
                 default=[],
                 key=f"{prefix}_talhoes",
+                placeholder="Selecione...",
                 format_func=lambda x: (
                     talhoes_df.loc[talhoes_df["id"] == x, "codigo"].iloc[0]
                     + " - "
@@ -121,13 +134,13 @@ def render_global_filters(
             )
 
     if in_sidebar:
-        sistema_opts = ["PIVO", "GOTEJO"]
-        sistemas = st.sidebar.multiselect(
-            "Sistema",
-            options=sistema_opts,
-            default=[],
-            key=f"{prefix}_sistemas",
+        sistema_sel = st.sidebar.radio(
+            "⚙️ Sistema",
+            options=["Todos", "PIVO", "GOTEJO"],
+            index=0,
+            key=f"{prefix}_sistema_sb",
         )
+        sistemas = [] if sistema_sel == "Todos" else [sistema_sel]
     else:
         with c5:
             sistema_opts = ["PIVO", "GOTEJO"]
@@ -136,6 +149,7 @@ def render_global_filters(
                 options=sistema_opts,
                 default=[],
                 key=f"{prefix}_sistemas",
+                placeholder="Selecione...",
             )
 
     status_options = []
@@ -146,18 +160,20 @@ def render_global_filters(
             "manutenção": "MANUTENCAO",
         }
         if in_sidebar:
-            selected_status_labels = st.sidebar.multiselect(
-                "Status",
-                options=list(status_map.keys()),
-                default=[],
-                key=f"{prefix}_status",
+            status_sel = st.sidebar.radio(
+                "🚦 Status",
+                options=["Todos", *list(status_map.keys())],
+                index=0,
+                key=f"{prefix}_status_sb",
             )
+            selected_status_labels = [] if status_sel == "Todos" else [status_sel]
         else:
             selected_status_labels = st.multiselect(
                 "Status",
                 options=list(status_map.keys()),
                 default=[],
                 key=f"{prefix}_status",
+                placeholder="Selecione...",
             )
         status_options = [status_map[x] for x in selected_status_labels]
 

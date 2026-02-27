@@ -20,12 +20,12 @@ def _render_plan_cards_css() -> None:
         <style>
         .hg-plan-card {
             position: relative;
-            border: 1px solid rgba(148, 163, 184, 0.26);
+            border: 1px solid rgba(226, 232, 240, 0.14);
             border-radius: 16px;
             padding: 12px;
             height: 170px;
-            background: linear-gradient(165deg, rgba(255, 255, 255, 0.98), rgba(241, 245, 249, 0.98));
-            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.10);
+            background: linear-gradient(165deg, rgba(44, 47, 50, 0.95), rgba(35, 38, 41, 0.95));
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -38,7 +38,7 @@ def _render_plan_cards_css() -> None:
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--accent), rgba(255, 255, 255, 0));
+            background: linear-gradient(90deg, var(--accent), rgba(44, 47, 50, 0));
         }
         .hg-plan-head {
             display: flex;
@@ -50,8 +50,8 @@ def _render_plan_cards_css() -> None:
             width: 30px;
             height: 30px;
             border-radius: 9px;
-            border: 1px solid rgba(148, 163, 184, 0.45);
-            background: rgba(248, 250, 252, 0.95);
+            border: 1px solid rgba(226, 232, 240, 0.22);
+            background: rgba(15, 16, 22, 0.62);
             color: var(--accent);
             display: grid;
             place-items: center;
@@ -63,7 +63,7 @@ def _render_plan_cards_css() -> None:
         }
         .hg-plan-title {
             font-size: 0.86rem;
-            color: #334155;
+            color: #cbd5e1;
             line-height: 1.15rem;
             font-weight: 600;
             white-space: nowrap;
@@ -71,7 +71,7 @@ def _render_plan_cards_css() -> None:
             text-overflow: ellipsis;
         }
         .hg-plan-value {
-            color: #0f172a;
+            color: #f8fafc;
             font-size: clamp(1.8rem, 1.2vw + 1.1rem, 2.2rem);
             line-height: 1.08;
             font-weight: 700;
@@ -86,9 +86,9 @@ def _render_plan_cards_css() -> None:
             align-items: center;
             font-size: 0.78rem;
             font-weight: 600;
-            color: #0f172a;
+            color: #e2e8f0;
             background: var(--badge-bg);
-            border: 1px solid rgba(148, 163, 184, 0.35);
+            border: 1px solid rgba(226, 232, 240, 0.2);
             border-radius: 999px;
             padding: 4px 9px;
             width: fit-content;
@@ -97,10 +97,10 @@ def _render_plan_cards_css() -> None:
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .hg-plan-tone-primary { --accent: #2563eb; --badge-bg: rgba(37, 99, 235, 0.16); }
-        .hg-plan-tone-success { --accent: #16a34a; --badge-bg: rgba(22, 163, 74, 0.16); }
-        .hg-plan-tone-warn { --accent: #f59e0b; --badge-bg: rgba(245, 158, 11, 0.18); }
-        .hg-plan-tone-info { --accent: #0ea5e9; --badge-bg: rgba(14, 165, 233, 0.18); }
+        .hg-plan-tone-primary { --accent: #60a5fa; --badge-bg: rgba(96, 165, 250, 0.2); }
+        .hg-plan-tone-success { --accent: #4ade80; --badge-bg: rgba(74, 222, 128, 0.2); }
+        .hg-plan-tone-warn { --accent: #fbbf24; --badge-bg: rgba(251, 191, 36, 0.22); }
+        .hg-plan-tone-info { --accent: #38bdf8; --badge-bg: rgba(56, 189, 248, 0.22); }
         </style>
         """,
         unsafe_allow_html=True,

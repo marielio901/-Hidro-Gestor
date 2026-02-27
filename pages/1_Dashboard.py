@@ -210,12 +210,12 @@ def _render_summary_cards_css() -> None:
         <style>
         .hg-summary-card {
             position: relative;
-            border: 1px solid rgba(56, 189, 248, 0.26);
+            border: 1px solid rgba(226, 232, 240, 0.14);
             border-radius: 16px;
             padding: 12px 12px 10px 12px;
             height: 178px;
-            background: linear-gradient(165deg, rgba(2, 8, 23, 0.98), rgba(5, 16, 38, 0.98));
-            box-shadow: 0 10px 20px rgba(2, 8, 23, 0.45);
+            background: linear-gradient(165deg, rgba(44, 47, 50, 0.95), rgba(35, 38, 41, 0.95));
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -228,7 +228,7 @@ def _render_summary_cards_css() -> None:
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--accent), rgba(2, 8, 23, 0));
+            background: linear-gradient(90deg, var(--accent), rgba(44, 47, 50, 0));
         }
         .hg-summary-head {
             display: flex;
@@ -240,8 +240,8 @@ def _render_summary_cards_css() -> None:
             width: 30px;
             height: 30px;
             border-radius: 9px;
-            border: 1px solid rgba(100, 116, 139, 0.48);
-            background: rgba(2, 8, 23, 0.72);
+            border: 1px solid rgba(226, 232, 240, 0.22);
+            background: rgba(15, 16, 22, 0.62);
             color: var(--accent);
             display: grid;
             place-items: center;
@@ -267,6 +267,7 @@ def _render_summary_cards_css() -> None:
             font-weight: 700;
             letter-spacing: -0.02em;
             margin: 2px 0 8px 0;
+            min-height: 2.45rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -276,9 +277,9 @@ def _render_summary_cards_css() -> None:
             align-items: center;
             font-size: 0.78rem;
             font-weight: 600;
-            color: #f8fafc;
+            color: #e2e8f0;
             background: var(--badge-bg);
-            border: 1px solid rgba(100, 116, 139, 0.45);
+            border: 1px solid rgba(226, 232, 240, 0.20);
             border-radius: 999px;
             padding: 4px 9px;
             width: fit-content;
@@ -287,12 +288,15 @@ def _render_summary_cards_css() -> None:
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .hg-tone-water { --accent: #38bdf8; --badge-bg: rgba(56, 189, 248, 0.20); }
-        .hg-tone-usage { --accent: #3b82f6; --badge-bg: rgba(59, 130, 246, 0.20); }
-        .hg-tone-energy { --accent: #22c55e; --badge-bg: rgba(34, 197, 94, 0.20); }
-        .hg-tone-cost { --accent: #10b981; --badge-bg: rgba(16, 185, 129, 0.20); }
-        .hg-tone-loss { --accent: #f59e0b; --badge-bg: rgba(245, 158, 11, 0.22); }
-        .hg-tone-alert { --accent: #ef4444; --badge-bg: rgba(239, 68, 68, 0.22); }
+        .hg-summary-delta-empty {
+            visibility: hidden;
+        }
+        .hg-tone-water { --accent: #38bdf8; --badge-bg: rgba(56, 189, 248, 0.22); }
+        .hg-tone-usage { --accent: #60a5fa; --badge-bg: rgba(96, 165, 250, 0.20); }
+        .hg-tone-energy { --accent: #4ade80; --badge-bg: rgba(74, 222, 128, 0.20); }
+        .hg-tone-cost { --accent: #34d399; --badge-bg: rgba(52, 211, 153, 0.20); }
+        .hg-tone-loss { --accent: #fbbf24; --badge-bg: rgba(251, 191, 36, 0.22); }
+        .hg-tone-alert { --accent: #f87171; --badge-bg: rgba(248, 113, 113, 0.22); }
         </style>
         """,
         unsafe_allow_html=True,
@@ -338,7 +342,7 @@ def _render_summary_card(col, title: str, value: str, delta: str | None, icon_ki
     delta_html = (
         f'<div class="hg-summary-delta" title="{delta}">{delta}</div>'
         if delta
-        else ""
+        else '<div class="hg-summary-delta hg-summary-delta-empty">&nbsp;</div>'
     )
     with col:
         st.markdown(
@@ -434,7 +438,7 @@ with tab_geral:
                 x=daily_view["ddmm"],
                 y=daily_view["chuva_equiv_h"],
                 name="Chuva (equiv. irrigacao)",
-                marker_color="#22c55e",
+                marker_color="#4fb387",
             )
         )
         fig.update_layout(
@@ -528,7 +532,7 @@ with tab_geral:
         else:
             labels = ["Sem problema", "Problemas"]
             values = [sem_problema, total_problemas]
-            colors = ["#22c55e", "#ef4444"]
+            colors = ["#4fb387", "#c97a7a"]
             center_text = f"{sem_problema_pct:.0f}%"
             center_sub = "Sem problema"
             pie_text = ["", f"{problemas_pct:.0f}%"]
@@ -577,7 +581,7 @@ with tab_geral:
             x=daily_view["ddmm"],
             y=daily_view["atividades"],
             name="Atividades",
-            marker_color="#22c55e",
+            marker_color="#4fb387",
         )
     )
     fig.add_trace(
@@ -585,7 +589,7 @@ with tab_geral:
             x=daily_view["ddmm"],
             y=daily_view["problemas"],
             name="Problemas",
-            marker_color="#ef4444",
+            marker_color="#c97a7a",
         )
     )
     fig.update_layout(
@@ -604,7 +608,7 @@ with tab_geral:
             x=activity_monthly["ano_mes"],
             y=activity_monthly["atividades"],
             name="Atividades",
-            marker_color="#22c55e",
+            marker_color="#4fb387",
         )
     )
     fig.add_trace(
@@ -612,7 +616,7 @@ with tab_geral:
             x=activity_monthly["ano_mes"],
             y=activity_monthly["problemas"],
             name="Problemas",
-            marker_color="#ef4444",
+            marker_color="#c97a7a",
         )
     )
     fig.update_layout(
@@ -736,7 +740,7 @@ with tab_hidrico:
                     x=daily_31["ddmm"],
                     y=daily_31["volume_aplicado_m3"],
                     name="Volume aplicado",
-                    marker_color="#22c55e",
+                    marker_color="#4fb387",
                 )
             )
             fig.update_layout(
@@ -756,7 +760,7 @@ with tab_hidrico:
                     x=daily_31["ddmm"],
                     y=daily_31["perdas_m3"],
                     name="Perdas",
-                    marker_color="#ef4444",
+                    marker_color="#c97a7a",
                 )
             )
             fig.update_layout(
@@ -784,7 +788,7 @@ with tab_hidrico:
             x=monthly["ano_mes"],
             y=monthly["volume_aplicado_m3"],
             name="Volume aplicado (m³)",
-            marker_color="#22c55e",
+            marker_color="#4fb387",
         )
     )
     fig.add_trace(
@@ -792,7 +796,7 @@ with tab_hidrico:
             x=monthly["ano_mes"],
             y=monthly["perdas_m3"],
             name="Perdas (m³)",
-            marker_color="#ef4444",
+            marker_color="#c97a7a",
         )
     )
     fig.add_trace(
@@ -933,7 +937,7 @@ with tab_clima:
                     x=clima_31["ddmm"],
                     y=clima_31["vento_max_ms"],
                     name="Vento",
-                    marker_color="#22c55e",
+                    marker_color="#4fb387",
                 )
             )
             fig.update_layout(
@@ -1009,7 +1013,7 @@ with tab_clima:
                     x=monthly_climate["ano_mes"],
                     y=monthly_climate["vento_max_ms"],
                     name="Vento médio",
-                    marker_color="#22c55e",
+                    marker_color="#4fb387",
                 )
             )
             fig.update_layout(
@@ -1140,7 +1144,7 @@ with tab_custos:
                 x=by_farm["fazenda_nome"],
                 y=by_farm["custo_energia_rs"],
                 name="Custo energia",
-                marker_color="#22c55e",
+                marker_color="#4fb387",
             )
         )
         fig.update_layout(
@@ -1210,7 +1214,7 @@ with tab_custos:
                 x=monthly_costs["ano_mes"],
                 y=monthly_costs["custo_energia_rs"],
                 name="Custo energia",
-                marker_color="#22c55e",
+                marker_color="#4fb387",
             )
         )
         fig.update_layout(
@@ -1372,7 +1376,7 @@ with tab_demanda:
                     x=daily_31_dem["ddmm"],
                     y=daily_31_dem["demanda_mm_dia"],
                     name="Demanda",
-                    marker_color="#22c55e",
+                    marker_color="#4fb387",
                 )
             )
             fig.update_layout(
@@ -1408,7 +1412,7 @@ with tab_demanda:
         st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
         d4, d5 = st.columns(2)
         with d4:
-            saldo_colors = np.where(daily_31_dem["saldo_mm"] >= 0, "#22c55e", "#ef4444")
+            saldo_colors = np.where(daily_31_dem["saldo_mm"] >= 0, "#4fb387", "#c97a7a")
             fig = go.Figure()
             fig.add_trace(
                 go.Bar(
@@ -1449,7 +1453,7 @@ with tab_demanda:
                         x=daily_31_act["ddmm"],
                         y=daily_31_act["horas_paradas"],
                         name="Horas paradas",
-                        marker_color="#ef4444",
+                        marker_color="#c97a7a",
                     )
                 )
                 fig.update_layout(
@@ -1494,7 +1498,7 @@ with tab_demanda:
                 x=monthly_demanda["ano_mes"],
                 y=monthly_demanda["demanda_mm"],
                 name="Demanda",
-                marker_color="#22c55e",
+                marker_color="#4fb387",
             )
         )
         fig.update_layout(
@@ -1508,7 +1512,7 @@ with tab_demanda:
         st.plotly_chart(fig, use_container_width=True)
 
     with m2:
-        saldo_mensal_colors = np.where(monthly_demanda["saldo_mm"] >= 0, "#22c55e", "#ef4444")
+        saldo_mensal_colors = np.where(monthly_demanda["saldo_mm"] >= 0, "#4fb387", "#c97a7a")
         fig = go.Figure()
         fig.add_trace(
             go.Bar(
@@ -1695,7 +1699,7 @@ with tab_energia:
                     x=daily_energy["ddmm"],
                     y=daily_energy["kwh_m3"],
                     name="Consumo específico",
-                    marker_color="#22c55e",
+                    marker_color="#4fb387",
                 )
             )
             fig.update_layout(
@@ -1772,7 +1776,7 @@ with tab_energia:
                 x=monthly_energy["ano_mes"],
                 y=monthly_energy["kwh_m3"],
                 name="Consumo específico mensal",
-                marker_color="#22c55e",
+                marker_color="#4fb387",
             )
         )
         fig.update_layout(
@@ -1944,7 +1948,7 @@ with tab_gestao:
                     x=pvr_day["ddmm"],
                     y=pvr_day["horas_realizadas"],
                     name="Horas realizadas",
-                    marker_color="#22c55e",
+                    marker_color="#4fb387",
                 )
             )
             fig.update_layout(
@@ -1974,7 +1978,7 @@ with tab_gestao:
                     x=pvr_day["ddmm"],
                     y=pvr_day["lamina_real_mm"],
                     name="Lâmina realizada",
-                    marker_color="#22c55e",
+                    marker_color="#4fb387",
                 )
             )
             fig.update_layout(
@@ -2009,7 +2013,7 @@ with tab_gestao:
                         textfont={"size": 11, "color": "#e2e8f0"},
                         name="Status (%)",
                         line={"color": "#60a5fa", "width": 2.4},
-                        marker={"size": 7, "color": "#22c55e"},
+                        marker={"size": 7, "color": "#4fb387"},
                     )
                 )
                 polar_cfg = {
@@ -2127,7 +2131,7 @@ with tab_alertas:
             go.Bar(
                 x=sev_df["severidade"],
                 y=sev_df["qtd"],
-                marker_color=["#ef4444", "#f59e0b", "#22c55e"],
+                marker_color=["#c97a7a", "#f59e0b", "#4fb387"],
                 name="Alertas",
             )
         )
@@ -2146,7 +2150,7 @@ with tab_alertas:
                 labels=alert_status_df["status"],
                 values=alert_status_df["qtd"],
                 hole=0.58,
-                marker={"colors": ["#ef4444", "#22c55e"]},
+                marker={"colors": ["#c97a7a", "#4fb387"]},
                 textinfo="percent",
             )
         )
@@ -2169,7 +2173,7 @@ with tab_alertas:
                     values=tipo_df["qtd"],
                     hole=0.45,
                     textinfo="percent",
-                    marker={"colors": ["#60a5fa", "#22c55e", "#f59e0b", "#ef4444"]},
+                    marker={"colors": ["#60a5fa", "#4fb387", "#f59e0b", "#c97a7a"]},
                 )
             )
             fig.update_layout(
@@ -2258,7 +2262,7 @@ with tab_alertas:
                     x=fazenda_stats["fazenda_nome"],
                     y=fazenda_stats["custo_rs"],
                     name="Custo",
-                    marker_color="#22c55e",
+                    marker_color="#4fb387",
                 )
             )
             fig.update_layout(
@@ -2318,7 +2322,7 @@ with tab_alertas:
                     x=diario_manut["ddmm"],
                     y=diario_manut["custo_rs"],
                     name="Custo diário",
-                    marker_color="#22c55e",
+                    marker_color="#4fb387",
                 )
             )
             fig.add_trace(
@@ -2362,7 +2366,7 @@ with tab_alertas:
                     name="Eventos",
                     mode="lines+markers",
                     yaxis="y2",
-                    line={"color": "#22c55e", "width": 2.2},
+                    line={"color": "#4fb387", "width": 2.2},
                     marker={"size": 7},
                 )
             )

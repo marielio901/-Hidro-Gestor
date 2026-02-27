@@ -17,8 +17,9 @@ st.set_page_config(
 hidro_dark = copy.deepcopy(pio.templates["plotly_dark"])
 hidro_dark.layout.colorway = ["#22c55e", "#3b82f6", "#0ea5e9", "#34d399", "#60a5fa", "#f59e0b", "#ef4444"]
 hidro_dark.layout.font = {"color": "#e2e8f0"}
-hidro_dark.layout.paper_bgcolor = "#020817"
-hidro_dark.layout.plot_bgcolor = "#020817"
+hidro_dark.layout.paper_bgcolor = "rgba(0,0,0,0)"
+hidro_dark.layout.plot_bgcolor = "rgba(0,0,0,0)"
+hidro_dark.layout.legend = {"bgcolor": "rgba(0,0,0,0)"}
 hidro_dark.layout.xaxis = {"gridcolor": "rgba(148, 163, 184, 0.18)", "zerolinecolor": "rgba(148, 163, 184, 0.18)"}
 hidro_dark.layout.yaxis = {"gridcolor": "rgba(148, 163, 184, 0.18)", "zerolinecolor": "rgba(148, 163, 184, 0.18)"}
 pio.templates["hidro_dark"] = hidro_dark
@@ -59,6 +60,13 @@ st.markdown(
     .stButton > button:hover {
         border-color: #22c55e !important;
         color: #86efac !important;
+    }
+    [data-testid="stPlotlyChart"],
+    [data-testid="stPlotlyChart"] > div,
+    [data-testid="stPlotlyChart"] .js-plotly-plot,
+    [data-testid="stPlotlyChart"] .plot-container,
+    [data-testid="stPlotlyChart"] .svg-container {
+        background: transparent !important;
     }
     </style>
     """,

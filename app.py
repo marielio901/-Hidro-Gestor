@@ -13,52 +13,52 @@ st.set_page_config(
     layout="wide",
 )
 
-# Tema claro para todos os gráficos Plotly.
-hidro_light = copy.deepcopy(pio.templates["plotly_white"])
-hidro_light.layout.colorway = ["#16a34a", "#2563eb", "#0ea5e9", "#22c55e", "#3b82f6", "#f59e0b", "#ef4444"]
-hidro_light.layout.font = {"color": "#0f172a"}
-hidro_light.layout.paper_bgcolor = "#ffffff"
-hidro_light.layout.plot_bgcolor = "#ffffff"
-hidro_light.layout.xaxis = {"gridcolor": "rgba(148, 163, 184, 0.24)", "zerolinecolor": "rgba(148, 163, 184, 0.24)"}
-hidro_light.layout.yaxis = {"gridcolor": "rgba(148, 163, 184, 0.24)", "zerolinecolor": "rgba(148, 163, 184, 0.24)"}
-pio.templates["hidro_light"] = hidro_light
-pio.templates.default = "hidro_light"
+# Tema escuro para todos os gráficos Plotly.
+hidro_dark = copy.deepcopy(pio.templates["plotly_dark"])
+hidro_dark.layout.colorway = ["#22c55e", "#3b82f6", "#0ea5e9", "#34d399", "#60a5fa", "#f59e0b", "#ef4444"]
+hidro_dark.layout.font = {"color": "#e2e8f0"}
+hidro_dark.layout.paper_bgcolor = "#020817"
+hidro_dark.layout.plot_bgcolor = "#020817"
+hidro_dark.layout.xaxis = {"gridcolor": "rgba(148, 163, 184, 0.18)", "zerolinecolor": "rgba(148, 163, 184, 0.18)"}
+hidro_dark.layout.yaxis = {"gridcolor": "rgba(148, 163, 184, 0.18)", "zerolinecolor": "rgba(148, 163, 184, 0.18)"}
+pio.templates["hidro_dark"] = hidro_dark
+pio.templates.default = "hidro_dark"
 
 st.markdown(
     """
     <style>
     [data-testid="stAppViewContainer"] {
-        background: linear-gradient(180deg, #f7fbff 0%, #f2f7fc 100%);
-        color: #0f172a;
+        background: linear-gradient(180deg, #020817 0%, #030b1a 100%);
+        color: #e2e8f0;
     }
     [data-testid="stHeader"] {
-        background: rgba(255, 255, 255, 0.85);
-        border-bottom: 1px solid rgba(148, 163, 184, 0.24);
+        background: rgba(2, 8, 23, 0.92);
+        border-bottom: 1px solid rgba(56, 189, 248, 0.20);
     }
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #ffffff 0%, #eef4fb 100%);
-        border-right: 1px solid rgba(148, 163, 184, 0.24);
+        background: linear-gradient(180deg, #050c1b 0%, #091225 100%);
+        border-right: 1px solid rgba(56, 189, 248, 0.20);
     }
     .stTabs [data-baseweb="tab-list"] button {
-        color: #1d4ed8;
+        color: #93c5fd;
     }
     .stTabs [data-baseweb="tab-list"] button[aria-selected="true"] {
-        color: #15803d !important;
-        border-bottom-color: #16a34a !important;
+        color: #22c55e !important;
+        border-bottom-color: #22c55e !important;
     }
     [data-testid="stSidebar"] a {
-        color: #1d4ed8 !important;
+        color: #93c5fd !important;
     }
     [data-testid="stSidebar"] a[aria-current="page"] {
-        color: #15803d !important;
+        color: #22c55e !important;
         font-weight: 700 !important;
     }
     [data-testid="stSidebar"] a:hover {
-        color: #166534 !important;
+        color: #86efac !important;
     }
     .stButton > button:hover {
-        border-color: #16a34a !important;
-        color: #166534 !important;
+        border-color: #22c55e !important;
+        color: #86efac !important;
     }
     </style>
     """,

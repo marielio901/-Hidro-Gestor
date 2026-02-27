@@ -210,12 +210,12 @@ def _render_summary_cards_css() -> None:
         <style>
         .hg-summary-card {
             position: relative;
-            border: 1px solid rgba(148, 163, 184, 0.26);
+            border: 1px solid rgba(56, 189, 248, 0.26);
             border-radius: 16px;
             padding: 12px 12px 10px 12px;
             height: 178px;
-            background: linear-gradient(165deg, rgba(255, 255, 255, 0.98), rgba(241, 245, 249, 0.98));
-            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.10);
+            background: linear-gradient(165deg, rgba(2, 8, 23, 0.98), rgba(5, 16, 38, 0.98));
+            box-shadow: 0 10px 20px rgba(2, 8, 23, 0.45);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -228,7 +228,7 @@ def _render_summary_cards_css() -> None:
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--accent), rgba(255, 255, 255, 0));
+            background: linear-gradient(90deg, var(--accent), rgba(2, 8, 23, 0));
         }
         .hg-summary-head {
             display: flex;
@@ -240,8 +240,8 @@ def _render_summary_cards_css() -> None:
             width: 30px;
             height: 30px;
             border-radius: 9px;
-            border: 1px solid rgba(148, 163, 184, 0.45);
-            background: rgba(248, 250, 252, 0.95);
+            border: 1px solid rgba(100, 116, 139, 0.48);
+            background: rgba(2, 8, 23, 0.72);
             color: var(--accent);
             display: grid;
             place-items: center;
@@ -253,7 +253,7 @@ def _render_summary_cards_css() -> None:
         }
         .hg-summary-title {
             font-size: 0.86rem;
-            color: #334155;
+            color: #cbd5e1;
             line-height: 1.15rem;
             font-weight: 600;
             white-space: nowrap;
@@ -261,7 +261,7 @@ def _render_summary_cards_css() -> None:
             text-overflow: ellipsis;
         }
         .hg-summary-value {
-            color: #0f172a;
+            color: #f8fafc;
             font-size: clamp(1.85rem, 1.25vw + 1.15rem, 2.2rem);
             line-height: 1.08;
             font-weight: 700;
@@ -276,9 +276,9 @@ def _render_summary_cards_css() -> None:
             align-items: center;
             font-size: 0.78rem;
             font-weight: 600;
-            color: #0f172a;
+            color: #f8fafc;
             background: var(--badge-bg);
-            border: 1px solid rgba(148, 163, 184, 0.35);
+            border: 1px solid rgba(100, 116, 139, 0.45);
             border-radius: 999px;
             padding: 4px 9px;
             width: fit-content;
@@ -287,12 +287,12 @@ def _render_summary_cards_css() -> None:
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .hg-tone-water { --accent: #0ea5e9; --badge-bg: rgba(14, 165, 233, 0.18); }
-        .hg-tone-usage { --accent: #2563eb; --badge-bg: rgba(37, 99, 235, 0.16); }
-        .hg-tone-energy { --accent: #16a34a; --badge-bg: rgba(22, 163, 74, 0.16); }
-        .hg-tone-cost { --accent: #22c55e; --badge-bg: rgba(34, 197, 94, 0.16); }
-        .hg-tone-loss { --accent: #f59e0b; --badge-bg: rgba(245, 158, 11, 0.18); }
-        .hg-tone-alert { --accent: #ef4444; --badge-bg: rgba(239, 68, 68, 0.20); }
+        .hg-tone-water { --accent: #38bdf8; --badge-bg: rgba(56, 189, 248, 0.20); }
+        .hg-tone-usage { --accent: #3b82f6; --badge-bg: rgba(59, 130, 246, 0.20); }
+        .hg-tone-energy { --accent: #22c55e; --badge-bg: rgba(34, 197, 94, 0.20); }
+        .hg-tone-cost { --accent: #10b981; --badge-bg: rgba(16, 185, 129, 0.20); }
+        .hg-tone-loss { --accent: #f59e0b; --badge-bg: rgba(245, 158, 11, 0.22); }
+        .hg-tone-alert { --accent: #ef4444; --badge-bg: rgba(239, 68, 68, 0.22); }
         </style>
         """,
         unsafe_allow_html=True,
@@ -557,14 +557,14 @@ with tab_geral:
                     "text": center_text,
                     "x": 0.5,
                     "y": 0.52,
-                    "font": {"size": 46, "color": "#0f172a"},
+                    "font": {"size": 46, "color": "#e2e8f0"},
                     "showarrow": False,
                 },
                 {
                     "text": center_sub,
                     "x": 0.5,
                     "y": 0.43,
-                    "font": {"size": 14, "color": "#475569"},
+                    "font": {"size": 14, "color": "#94a3b8"},
                     "showarrow": False,
                 },
             ],
@@ -2013,19 +2013,19 @@ with tab_gestao:
                     )
                 )
                 polar_cfg = {
-                    "bgcolor": "rgba(255, 255, 255, 0.92)",
+                    "bgcolor": "rgba(2, 8, 23, 0.78)",
                     "radialaxis": {
                         "visible": True,
                         "range": [0, 100],
                         "ticksuffix": "%",
                         "tick0": 0,
                         "dtick": 20,
-                        "tickfont": {"size": 11, "color": "#334155"},
+                        "tickfont": {"size": 11, "color": "#cbd5e1"},
                         "gridcolor": "rgba(148, 163, 184, 0.30)",
                     },
                     "angularaxis": {
                         "type": "category",
-                        "tickfont": {"size": 11, "color": "#334155"},
+                        "tickfont": {"size": 11, "color": "#cbd5e1"},
                         "rotation": 90,
                         "direction": "clockwise",
                         "gridcolor": "rgba(148, 163, 184, 0.30)",
